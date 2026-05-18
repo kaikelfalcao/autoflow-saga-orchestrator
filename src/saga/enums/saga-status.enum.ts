@@ -1,0 +1,18 @@
+export enum SagaStatus {
+  STARTED = 'STARTED',
+  RESERVING = 'RESERVING',
+  RESERVED = 'RESERVED',
+  RESERVATION_FAILED = 'RESERVATION_FAILED',
+  CONSUMING = 'CONSUMING',
+  CONSUMED = 'CONSUMED',
+  RELEASING = 'RELEASING',
+  RELEASED = 'RELEASED',
+  FAILED = 'FAILED',
+}
+
+export const TERMINAL_STATUSES: ReadonlyArray<SagaStatus> = [
+  SagaStatus.CONSUMED,
+  SagaStatus.RELEASED,
+  SagaStatus.FAILED,
+  SagaStatus.RESERVATION_FAILED,
+];

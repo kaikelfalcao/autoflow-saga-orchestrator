@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: saga-migration
+  namespace: autoflow
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migration
+          image: kaikelfalcao/autoflow-saga:latest
+          command:
+            - node
+            - -e
+            - |
+              const ds = require('./dist/database/typeorm.datasource').default;
+              ds.initialize()
+                .then(() => ds.runMigrations())
+                .then((m) => {
+                  console.log('Migrations:', m.length);
+                  m.forEach(x => console.log(' -', x.name));
+                  process.exit(0);
+                })
+                .catch((err) => {
+                  console.error('Migration error:', err);
+                  process.exit(1);
+                });
+          envFrom:
+            - secretRef:
+                name: saga-secrets

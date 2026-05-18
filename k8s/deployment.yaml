@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saga-orchestrator
+  namespace: autoflow
+  labels:
+    app: saga-orchestrator
+spec:
+  # Saga orchestrator é singleton-friendly mas idempotente — 2 réplicas OK
+  replicas: 2
+  selector:
+    matchLabels:
+      app: saga-orchestrator
+  template:
+    metadata:
+      labels:
+        app: saga-orchestrator
+    spec:
+      containers:
+        - name: saga-orchestrator
+          image: kaikelfalcao/autoflow-saga:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3002
+          envFrom:
+            - secretRef:
+                name: saga-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              cpu: 500m
+              memory: 384Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 10
