@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   push:
-    branches: [main, develop]
+    branches: ['**']
   pull_request:
-    branches: [main, develop]
+    branches: ['**']
 
 env:
   IMAGE_NAME: kaikelfalcao/autoflow-saga
@@ -67,12 +67,8 @@ jobs:
       - run: npm run test:cov
       - run: npm run test:bdd --if-present
 
-      - name: SonarCloud Scan
-        if: ${{ env.SONAR_TOKEN != '' }}
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # TODO: integrar SonarQube Community Edition (self-hosted) para emitir relatórios.
+      # SonarCloud removido temporariamente — voltar com `sonar-scanner` apontando para a instância community.
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -109,12 +105,12 @@ jobs:
   deploy:
     name: Deploy → EKS
     needs: docker
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.ENABLE_DEPLOY == 'true'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
     env:
       AWS_REGION: us-east-1
-      K8S_CLUSTER: autoflow-eks
+      K8S_CLUSTER: autoflow-dev-eks
       K8S_NAMESPACE: autoflow
 
     steps:
