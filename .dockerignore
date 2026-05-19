@@ -1,0 +1,33 @@
+# Build artifacts e cache
+node_modules
+dist
+coverage
+*.tsbuildinfo
+
+# Git + CI
+.git
+.gitignore
+.github
+
+# Editor
+.idea
+.vscode
+
+# Docs (não precisam no container)
+*.md
+docs
+
+# Segredos e config local (vêm do Secret/ConfigMap em runtime)
+.env
+.env.local
+
+# Test artifacts
+test
+features
+swagger.json
+__mocks__
+
+# Local docker compose (não usado em prod)
+docker-compose*.yml
+docker-compose*.yaml
+
