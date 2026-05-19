@@ -63,6 +63,7 @@ jobs:
 
       - run: npm ci
       - run: npm run lint --if-present
+      - run: npm run format:check --if-present
       - run: npm run test:cov
       - run: npm run test:bdd --if-present
 
