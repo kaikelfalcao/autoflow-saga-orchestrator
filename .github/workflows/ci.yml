@@ -74,7 +74,7 @@ jobs:
         # Roda apenas quando SONAR_TOKEN está disponível (secret configurado).
         # Setup: ver autoflow-infra/docs/04-sonarcloud-setup.md
         if: ${{ env.SONAR_TOKEN != '' }}
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
