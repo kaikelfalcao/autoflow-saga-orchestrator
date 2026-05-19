@@ -161,7 +161,7 @@ npm run lint           # tsc --noEmit
 
 Coverage atual: 100% nos `saga.service` e nos consumers monitorados.
 
-> **TODO:** SonarQube Community.
+> **Análise estática:** CodeQL via GitHub Actions (`.github/workflows/codeQL.yml`) — varredura de segurança em pushes na `main` e em pull requests.
 
 ---
 

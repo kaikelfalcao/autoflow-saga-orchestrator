@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -11,12 +12,17 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
 env:
   NODE_VERSION: '24'
 
 jobs:
-  sonarqube:
-    name: SonarQube
+  CI:
+    name: CI pipeline
     runs-on: ubuntu-latest
 
     services:
@@ -57,27 +63,32 @@ jobs:
       NODE_ENV: test
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
-        with:
-          fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - run: npm ci
-      - run: npm run lint --if-present
-      - run: npm run format:check --if-present
-      - run: npm run test:cov
-      - run: npm run test:bdd --if-present
+      - name: Install dependencies
+        run: npm ci
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Lint
+        run: npm run lint --if-present
 
-      - uses: actions/upload-artifact@v4
+      - name: Format check
+        run: npm run format:check --if-present
+
+      - name: Unit tests
+        run: npm run test:cov
+
+      - name: BDD tests
+        run: npm run test:bdd --if-present
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coverage
