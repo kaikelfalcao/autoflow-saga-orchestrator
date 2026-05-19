@@ -11,7 +11,8 @@ import { AppModule } from "./app.module";
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  const port = Number(process.env.APP_PORT ?? 3002);
+  // PORT é a env padronizada; APP_PORT mantido como fallback para compat
+  const port = Number(process.env.PORT ?? process.env.APP_PORT ?? 3002);
   await app.listen(port);
 }
 
