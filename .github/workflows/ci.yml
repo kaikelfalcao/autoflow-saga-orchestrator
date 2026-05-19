@@ -11,6 +11,7 @@ concurrency:
 
 env:
   NODE_VERSION: '24'
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 jobs:
   test:
