@@ -9,10 +9,14 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:bdd": "cucumber-js",
-    "lint": "tsc --noEmit",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
     "typeorm": "typeorm-ts-node-commonjs -d src/database/typeorm.datasource.ts",
     "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^5.7.0",
@@ -40,6 +44,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^10.9.0",
     "@cucumber/pretty-formatter": "^1.0.1",
+    "@eslint/js": "^10.0.1",
     "@nestjs/testing": "^11.0.1",
     "@types/amqplib": "^0.10.5",
     "@types/express": "^5.0.6",
@@ -47,9 +52,15 @@
     "@types/newrelic": "^9.14.8",
     "@types/node": "^22.0.0",
     "@types/uuid": "^10.0.0",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.6.0",
     "jest": "^29.7.0",
+    "prettier": "^3.8.3",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.59.4"
   }
 }

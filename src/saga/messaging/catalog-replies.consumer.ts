@@ -1,7 +1,7 @@
-import { Nack, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { Injectable, Logger } from '@nestjs/common';
+import { Nack, RabbitSubscribe } from "@golevelup/nestjs-rabbitmq";
+import { Injectable, Logger } from "@nestjs/common";
 
-import { SagaService } from '../saga.service';
+import { SagaService } from "../saga.service";
 
 interface Envelope<T> {
   sagaId?: string;
@@ -39,9 +39,9 @@ export class CatalogRepliesConsumer {
   constructor(private readonly sagaService: SagaService) {}
 
   @RabbitSubscribe({
-    exchange: 'oficina.replies',
-    routingKey: 'stock.stock-reserved',
-    queue: 'saga.catalog.stock-reserved',
+    exchange: "oficina.replies",
+    routingKey: "stock.stock-reserved",
+    queue: "saga.catalog.stock-reserved",
     queueOptions: { durable: true },
   })
   async onStockReserved(
@@ -59,9 +59,9 @@ export class CatalogRepliesConsumer {
   }
 
   @RabbitSubscribe({
-    exchange: 'oficina.replies',
-    routingKey: 'stock.stock-insufficient',
-    queue: 'saga.catalog.stock-insufficient',
+    exchange: "oficina.replies",
+    routingKey: "stock.stock-insufficient",
+    queue: "saga.catalog.stock-insufficient",
     queueOptions: { durable: true },
   })
   async onStockInsufficient(
@@ -79,9 +79,9 @@ export class CatalogRepliesConsumer {
   }
 
   @RabbitSubscribe({
-    exchange: 'oficina.replies',
-    routingKey: 'stock.stock-consumed',
-    queue: 'saga.catalog.stock-consumed',
+    exchange: "oficina.replies",
+    routingKey: "stock.stock-consumed",
+    queue: "saga.catalog.stock-consumed",
     queueOptions: { durable: true },
   })
   async onStockConsumed(
@@ -99,9 +99,9 @@ export class CatalogRepliesConsumer {
   }
 
   @RabbitSubscribe({
-    exchange: 'oficina.replies',
-    routingKey: 'stock.reservation-released',
-    queue: 'saga.catalog.reservation-released',
+    exchange: "oficina.replies",
+    routingKey: "stock.reservation-released",
+    queue: "saga.catalog.reservation-released",
     queueOptions: { durable: true },
   })
   async onReservationReleased(

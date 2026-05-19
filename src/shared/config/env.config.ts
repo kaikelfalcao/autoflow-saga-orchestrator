@@ -7,8 +7,8 @@ import {
   IsUrl,
   Min,
   validateSync,
-} from 'class-validator';
-import { plainToInstance } from 'class-transformer';
+} from "class-validator";
+import { plainToInstance } from "class-transformer";
 
 class EnvConfig {
   @IsInt()
@@ -16,13 +16,13 @@ class EnvConfig {
   @IsOptional()
   PORT: number = 3002;
 
-  @IsIn(['development', 'production', 'test'])
+  @IsIn(["development", "production", "test"])
   @IsOptional()
-  NODE_ENV: string = 'development';
+  NODE_ENV: string = "development";
 
-  @IsIn(['info', 'debug', 'warn', 'error'])
+  @IsIn(["info", "debug", "warn", "error"])
   @IsOptional()
-  LOG_LEVEL: string = 'info';
+  LOG_LEVEL: string = "info";
 
   @IsString()
   @IsNotEmpty()
@@ -52,16 +52,14 @@ class EnvConfig {
   @IsString()
   @IsUrl({ require_tld: false, require_protocol: true })
   @IsOptional()
-  ORDER_SERVICE_URL: string = 'http://localhost:3001';
+  ORDER_SERVICE_URL: string = "http://localhost:3001";
 
   @IsString()
   @IsOptional()
-  CORRELATION_ID_HEADER: string = 'x-correlation-id';
+  CORRELATION_ID_HEADER: string = "x-correlation-id";
 }
 
-export function validateEnv(
-  config: Record<string, unknown>,
-): EnvConfig {
+export function validateEnv(config: Record<string, unknown>): EnvConfig {
   const validated = plainToInstance(EnvConfig, config, {
     enableImplicitConversion: true,
   });

@@ -1,12 +1,12 @@
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { AmqpConnection } from "@golevelup/nestjs-rabbitmq";
+import { Injectable } from "@nestjs/common";
+import { v4 as uuidv4 } from "uuid";
 
-import { SagaItem } from '../entities/saga.orm-entity';
+import { SagaItem } from "../entities/saga.orm-entity";
 
-const EXCHANGE = 'oficina.commands';
-const SOURCE = 'saga-orchestrator';
-const VERSION = '1.0';
+const EXCHANGE = "oficina.commands";
+const SOURCE = "saga-orchestrator";
+const VERSION = "1.0";
 
 interface Envelope<T> {
   eventId: string;
@@ -27,7 +27,7 @@ export class CatalogCommandsPublisher {
     osId: string;
     items: SagaItem[];
   }): Promise<void> {
-    await this.publish('stock.reserve-stock', params.sagaId, {
+    await this.publish("stock.reserve-stock", params.sagaId, {
       osId: params.osId,
       items: params.items,
     });
@@ -38,7 +38,7 @@ export class CatalogCommandsPublisher {
     osId: string;
     reservationId: string;
   }): Promise<void> {
-    await this.publish('stock.consume-stock', params.sagaId, {
+    await this.publish("stock.consume-stock", params.sagaId, {
       osId: params.osId,
       reservationId: params.reservationId,
     });
@@ -49,7 +49,7 @@ export class CatalogCommandsPublisher {
     osId: string;
     reservationId: string;
   }): Promise<void> {
-    await this.publish('stock.release-reservation', params.sagaId, {
+    await this.publish("stock.release-reservation", params.sagaId, {
       osId: params.osId,
       reservationId: params.reservationId,
     });

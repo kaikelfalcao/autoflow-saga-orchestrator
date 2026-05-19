@@ -1,6 +1,6 @@
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { RabbitMQModule } from "@golevelup/nestjs-rabbitmq";
+import { Global, Module } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 @Global()
 @Module({
@@ -9,11 +9,12 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (cfg: ConfigService) => ({
         uri:
-          cfg.get<string>('RABBITMQ_URL') ?? 'amqp://admin:admin@localhost:5672',
+          cfg.get<string>("RABBITMQ_URL") ??
+          "amqp://admin:admin@localhost:5672",
         exchanges: [
-          { name: 'order.events', type: 'topic' },
-          { name: 'oficina.commands', type: 'topic' },
-          { name: 'oficina.replies', type: 'topic' },
+          { name: "order.events", type: "topic" },
+          { name: "oficina.commands", type: "topic" },
+          { name: "oficina.replies", type: "topic" },
         ],
         connectionInitOptions: { wait: true, timeout: 20000 },
       }),

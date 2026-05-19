@@ -4,13 +4,13 @@ import {
   Inject,
   Injectable,
   NestInterceptor,
-} from '@nestjs/common';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Observable, catchError, tap, throwError } from 'rxjs';
-import type { Request, Response } from 'express';
-import type { Logger } from 'winston';
+} from "@nestjs/common";
+import { WINSTON_MODULE_PROVIDER } from "nest-winston";
+import { Observable, catchError, tap, throwError } from "rxjs";
+import type { Request, Response } from "express";
+import type { Logger } from "winston";
 
-import { RequestContextService } from './request-context.service';
+import { RequestContextService } from "./request-context.service";
 
 @Injectable()
 export class CanonicalLogInterceptor implements NestInterceptor {
@@ -20,14 +20,14 @@ export class CanonicalLogInterceptor implements NestInterceptor {
   ) {}
 
   intercept(ctx: ExecutionContext, next: CallHandler): Observable<unknown> {
-    if (ctx.getType() !== 'http') return next.handle();
+    if (ctx.getType() !== "http") return next.handle();
 
     const httpCtx = ctx.switchToHttp();
     const req = httpCtx.getRequest<Request>();
     const res = httpCtx.getResponse<Response>();
     const start = Date.now();
     const requestId =
-      (req.headers['x-correlation-id'] as string | undefined) ?? 'unknown';
+      (req.headers["x-correlation-id"] as string | undefined) ?? "unknown";
 
     this.requestCtx.enter({ request_id: requestId });
 
@@ -54,17 +54,18 @@ export class CanonicalLogInterceptor implements NestInterceptor {
       code?: string;
     } | null;
     const status = err ? (errObj?.status ?? 500) : res.statusCode;
-    const level = status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info';
-    const path = (req as Request & { route?: { path?: string } }).route?.path
-      ?? req.path
-      ?? req.url;
+    const level = status >= 500 ? "error" : status >= 400 ? "warn" : "info";
+    const path =
+      (req as Request & { route?: { path?: string } }).route?.path ??
+      req.path ??
+      req.url;
 
     const accrued = this.requestCtx.snapshot();
     delete accrued.request_id;
 
     this.logger.log({
       level,
-      message: 'request',
+      message: "request",
       request_id: requestId,
       method: req.method,
       path,
@@ -73,7 +74,7 @@ export class CanonicalLogInterceptor implements NestInterceptor {
       ...(err
         ? {
             error: {
-              type: errObj?.name ?? 'Error',
+              type: errObj?.name ?? "Error",
               message: errObj?.message ?? String(err),
               code: errObj?.code,
             },

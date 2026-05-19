@@ -1,10 +1,10 @@
-import { Global, Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { WinstonModule } from 'nest-winston';
+import { Global, Module } from "@nestjs/common";
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { WinstonModule } from "nest-winston";
 
-import { CanonicalLogInterceptor } from './canonical-log.interceptor';
-import { RequestContextService } from './request-context.service';
-import { winstonConfig } from './winston.config';
+import { CanonicalLogInterceptor } from "./canonical-log.interceptor";
+import { RequestContextService } from "./request-context.service";
+import { winstonConfig } from "./winston.config";
 
 @Global()
 @Module({

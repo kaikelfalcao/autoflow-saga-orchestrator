@@ -1,7 +1,7 @@
-import { Nack, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { Injectable, Logger } from '@nestjs/common';
+import { Nack, RabbitSubscribe } from "@golevelup/nestjs-rabbitmq";
+import { Injectable, Logger } from "@nestjs/common";
 
-import { SagaService } from '../saga.service';
+import { SagaService } from "../saga.service";
 
 interface BaseEvent<T> {
   eventId?: string;
@@ -35,9 +35,9 @@ export class OrderEventsConsumer {
   constructor(private readonly sagaService: SagaService) {}
 
   @RabbitSubscribe({
-    exchange: 'order.events',
-    routingKey: 'order.budget.approved',
-    queue: 'saga.order.budget-approved',
+    exchange: "order.events",
+    routingKey: "order.budget.approved",
+    queue: "saga.order.budget-approved",
     queueOptions: { durable: true },
   })
   async onBudgetApproved(
@@ -55,9 +55,9 @@ export class OrderEventsConsumer {
   }
 
   @RabbitSubscribe({
-    exchange: 'order.events',
-    routingKey: 'order.execution.completed',
-    queue: 'saga.order.execution-completed',
+    exchange: "order.events",
+    routingKey: "order.execution.completed",
+    queue: "saga.order.execution-completed",
     queueOptions: { durable: true },
   })
   async onExecutionCompleted(
@@ -75,9 +75,9 @@ export class OrderEventsConsumer {
   }
 
   @RabbitSubscribe({
-    exchange: 'order.events',
-    routingKey: 'order.cancelled',
-    queue: 'saga.order.cancelled',
+    exchange: "order.events",
+    routingKey: "order.cancelled",
+    queue: "saga.order.cancelled",
     queueOptions: { durable: true },
   })
   async onOrderCancelled(

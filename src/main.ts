@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-require('newrelic');
-import 'reflect-metadata';
-import 'dotenv/config';
+require("newrelic");
+import "reflect-metadata";
+import "dotenv/config";
 
-import { NestFactory } from '@nestjs/core';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { NestFactory } from "@nestjs/core";
+import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
 
-import { AppModule } from './app.module';
+import { AppModule } from "./app.module";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);

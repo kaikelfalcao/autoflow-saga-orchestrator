@@ -1,23 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
-import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { Controller, Get } from "@nestjs/common";
+import { InjectDataSource } from "@nestjs/typeorm";
+import { DataSource } from "typeorm";
 
-@Controller('health')
+@Controller("health")
 export class HealthController {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
   @Get()
   async check() {
-    let dbStatus = 'down';
+    let dbStatus = "down";
     try {
-      await this.dataSource.query('SELECT 1');
-      dbStatus = 'up';
+      await this.dataSource.query("SELECT 1");
+      dbStatus = "up";
     } catch {
-      dbStatus = 'down';
+      dbStatus = "down";
     }
     return {
-      status: dbStatus === 'up' ? 'ok' : 'degraded',
-      service: 'autoflow-saga-orchestrator',
+      status: dbStatus === "up" ? "ok" : "degraded",
+      service: "autoflow-saga-orchestrator",
       database: dbStatus,
       timestamp: new Date().toISOString(),
     };
