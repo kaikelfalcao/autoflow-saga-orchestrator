@@ -1,9 +1,11 @@
-name: CI
+name: Build
 
 on:
   push:
-    branches: ['**']
+    branches:
+      - main
   pull_request:
+    types: [opened, synchronize, reopened]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,11 +13,10 @@ concurrency:
 
 env:
   NODE_VERSION: '24'
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 jobs:
-  test:
-    name: Lint + Test + Coverage
+  sonarqube:
+    name: SonarQube
     runs-on: ubuntu-latest
 
     services:
@@ -56,7 +57,7 @@ jobs:
       NODE_ENV: test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
           fetch-depth: 0
 
@@ -71,15 +72,10 @@ jobs:
       - run: npm run test:cov
       - run: npm run test:bdd --if-present
 
-      - name: SonarCloud Scan
-        # Roda apenas quando SONAR_TOKEN está disponível (secret configurado).
-        # Setup: ver autoflow-infra/docs/04-sonarcloud-setup.md
-        if: ${{ env.SONAR_TOKEN != '' }}
-        uses: SonarSource/sonarqube-scan-action@v6
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
 
       - uses: actions/upload-artifact@v4
         if: always()
