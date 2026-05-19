@@ -26,7 +26,7 @@ class EnvConfig {
 
   @IsString()
   @IsNotEmpty()
-  DATABASE_HOST: string;
+  DATABASE_HOST!: string;
 
   @IsInt()
   @Min(1)
@@ -35,19 +35,19 @@ class EnvConfig {
 
   @IsString()
   @IsNotEmpty()
-  DATABASE_USER: string;
+  DATABASE_USER!: string;
 
   @IsString()
   @IsNotEmpty()
-  DATABASE_PASSWORD: string;
+  DATABASE_PASSWORD!: string;
 
   @IsString()
   @IsNotEmpty()
-  DATABASE_NAME: string;
+  DATABASE_NAME!: string;
 
   @IsString()
   @IsNotEmpty()
-  RABBITMQ_URL: string;
+  RABBITMQ_URL!: string;
 
   @IsString()
   @IsUrl({ require_tld: false, require_protocol: true })
